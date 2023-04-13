@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            background: #00000099;
+        }
+    </style>
+</head>
+<body>
+
+<user-card>
+    <h1 slot="name">UserName</h1>
+    <p slot="desc">User Description</p>
+</user-card>
+
+<script>
+    class UserCard extends HTMLElement{
+        constructor() {
+            super();
+            this.attachShadow({mode: 'open'});
+        }
+
+        connectedCallback() {
+            this.shadowRoot.innerHTML = `
+                <style>
+                    ul {
+                        list-style: none;
+                        padding: 0;
+                    }
+                    li {
+                        padding: 0.5rem;
+                        border-bottom: 1px solid #ccc;
+                    }
+                </style>
+                <h1>
+                    <slot name="name"></slot>
+                </h1>
+                <p>
+                <slot name="desc"></slot>
+</p>
+            `;
+        }
+    }
+
+    customElements.define('user-card', UserCard);
+</script>
+</body>
+</html>

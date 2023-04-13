@@ -13,7 +13,8 @@
     </style>
 </head>
 <body>
-<custom-input label="hello" placeholder="bhye"></custom-input>
+<custom-input label="hello"></custom-input>
+
 <button id="set-btn">click</button>
 <script>
     class CustomInput extends HTMLElement {
@@ -59,7 +60,10 @@
                     </label>
                 `;
         }
+
+
     }
+
 
     customElements.define('custom-input', CustomInput);
 
