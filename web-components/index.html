@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            background: #00000099;
+        }
+    </style>
+</head>
+<body>
+<custom-input label="hello" placeholder="bhye"></custom-input>
+<button id="set-btn">click</button>
+<script>
+    class CustomInput extends HTMLElement {
+        constructor() {
+            super();
+            this.attachShadow({mode: 'open'});
+        }
+
+        static get observedAttributes() {
+            return ['label', 'placeholder'];
+        }
+
+        attributeChangedCallback(name, oldValue, newValue) {
+            if (oldValue === newValue) {
+                return;
+            }
+            if(name === 'label' && this.shadowRoot.querySelector('span')){
+                this.shadowRoot.querySelector('span').innerText = newValue;
+            }else if (name === 'placeholder' && this.shadowRoot.querySelector('input')){
+                this.shadowRoot.querySelector('input').setAttribute('placeholder', newValue);
+            }
+        }
+
+        connectedCallback() {
+            const labelText = this.getAttribute('label');
+            const placeholderText = this.getAttribute('placeholder');
+
+            this.shadowRoot.innerHTML = `
+                    <style>
+                        input {
+                            width: 100%;
+                            height: 100%;
+                            border: none;
+                            outline: none;
+                            background: none;
+                            color: #fff;
+                            font-size: 1.5rem;
+                        }
+                    </style>
+                    <label>
+                        <span>${labelText}</span>
+                        <input type="text" placeholder="${placeholderText}">
+                    </label>
+                `;
+        }
+    }
+
+    customElements.define('custom-input', CustomInput);
+
+    const setBtn = document.getElementById('set-btn');
+    setBtn.addEventListener('click', () => {
+        const customInput = document.querySelector('custom-input');
+        customInput.setAttribute('label', '111');
+        customInput.setAttribute('placeholder', '222');
+    });
+</script>
+</body>
+</html>
