@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            color:#fff;
+        }
+        body{
+            background: #000;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+<script>
+    const root = document.getElementById('root');
+    const temp = `Hello World
+hi`;
+    const arr= temp.split('\n');
+    for(let str of arr){
+        const p = document.createElement('p');
+        p.innerHTML = str;
+        root.appendChild(p);
+    }
+</script>
+</body>
+</html>
