@@ -8,3 +8,7 @@ dbLogger.log('Hello World');
 const cacheLogger = new LoggerES('Cache');
 cacheLogger.log('cache hit !')
 cacheLogger.info('cache full !')
+
+// 보호자(guard) 구현
+const errLog = Logger('ERROR');
+errLog.info('에러야')
