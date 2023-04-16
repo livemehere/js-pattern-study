@@ -30,3 +30,15 @@ let a = {
    }
 console.log(a.all)
 ```
+
+## process.nextTick 과 setImmediate
+
+- process.nextTick 은 현재 이벤트 루프의 끝에 콜백을 추가한다. (다른 I/O 이벤트들보다 먼저 실행된다.)
+- setImmediate 는 현재 이벤트 루프의 다음 루프에서 콜백을 추가한다. (I/O 이벤트들보다 늦게 실행된다.)
+
+## 에러
+
+- 에러는 try catch 로 잡을 수 있다.
+- 에러는 throw 로 던질 수 있다.
+- 에러는 .catch() 로 잡을 수 있다.
+- 에러가 이벤트 루프의 맨 마지막에 잡히면 프로세스가 종료된다.
