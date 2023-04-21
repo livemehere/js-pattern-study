@@ -1,14 +1,11 @@
-import { useState } from 'react'
-import Card from "./components/childrenPattern/Card";
-import CardObjectChildren from "./components/childrenPattern/CardObjectChildren";
-import ChildrenPatternPage from "./pages/ChildrenPattern";
+import Layout from "./components/Layout";
 
 function App() {
   return (
-    <>
-        <ChildrenPatternPage/>
-    </>
-  )
+    <Layout>
+      <h1>HOME</h1>
+    </Layout>
+  );
 }
 
-export default App
+export default App;

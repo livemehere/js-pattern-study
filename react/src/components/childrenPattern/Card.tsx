@@ -1,18 +1,18 @@
-import styled from 'styled-components'
-import {FC, ReactNode} from 'react'
+import styled from "styled-components";
+import { FC, ReactNode } from "react";
 
 interface Props {
-    children:ReactNode
+  children: ReactNode;
 }
 
-const Card: FC<Props> = ({children}) => {
-    return <Root className="Card">{children}</Root>
-}
+const Card: FC<Props> = ({ children }) => {
+  return <Root className="Card">{children}</Root>;
+};
 
-export default Card
+export default Card;
 
 export const Root = styled.div`
   display: inline-block;
   padding: 20px;
   background: #ffffff50;
-`
+`;
