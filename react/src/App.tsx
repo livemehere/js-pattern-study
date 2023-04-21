@@ -1,11 +1,12 @@
 import { useState } from 'react'
+import Card from "./components/childrenPattern/Card";
+import CardObjectChildren from "./components/childrenPattern/CardObjectChildren";
+import ChildrenPatternPage from "./pages/ChildrenPattern";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      <h1>Hello world</h1>
+        <ChildrenPatternPage/>
     </>
   )
 }
