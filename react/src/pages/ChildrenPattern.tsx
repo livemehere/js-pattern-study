@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import {FC} from 'react'
 import Card from "../components/childrenPattern/Card";
 import CardObjectChildren from "../components/childrenPattern/CardObjectChildren";
+import CardRenderProps from "../components/childrenPattern/CardRenderProps";
 
 interface Props {
 }
@@ -19,6 +20,9 @@ const ChildrenPatternPage: FC<Props> = () => {
         <CardObjectChildren>
             hello
         </CardObjectChildren>
+        <CardRenderProps onToggle={(v)=> console.log(v)}>
+            {({toggle, on})=> <div onClick={toggle}>{on ? 'ON' : 'OFF'}</div>}
+        </CardRenderProps>
     </Root>
 }
 
