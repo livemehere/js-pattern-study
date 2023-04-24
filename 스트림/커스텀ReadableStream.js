@@ -20,6 +20,6 @@ class MyReadableStream extends stream.Readable {
 
 const myReadableStream = new MyReadableStream();
 
-myReadableStream.on("data", (chunk) => {
-  console.log(chunk.toString());
+myReadableStream.on("readable", (chunk) => {
+  console.log("readable", myReadableStream.read()?.toString());
 });
