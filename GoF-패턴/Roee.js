@@ -1,3 +1,8 @@
+/*
+ * ROEE Read Only Event Emitter
+ * - emit 메서드를 외부에서 호출할 수 없도록 하는 EventEmitter
+ * */
+
 const EventEmitter = require("events");
 class Roee extends EventEmitter {
   constructor(executor) {
