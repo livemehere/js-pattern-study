@@ -1,6 +1,6 @@
 /*
- * ROEE Read Only Event Emitter
- * - emit 메서드를 외부에서 호출할 수 없도록 하는 EventEmitter
+ * 공개생성자 패턴
+ * - 생성자에서 내부 구현체를 노출시키는 방법
  * */
 
 const EventEmitter = require("events");
