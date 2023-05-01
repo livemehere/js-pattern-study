@@ -1,0 +1,1 @@
+(()=>{var o={803:()=>{window.onload=function(){const o=document.createElement("h1");o.innerText="Hello World",document.body.appendChild(o)}}},e={};(function n(r){var t=e[r];if(void 0!==t)return t.exports;var d=e[r]={exports:{}};return o[r](d,d.exports,n),d.exports})(803),console.log("main.js")})();
