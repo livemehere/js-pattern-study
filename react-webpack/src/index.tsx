@@ -1,7 +1,7 @@
 import { createRoot } from "react-dom/client";
 import './global.less'
-import App from "./components/App";
+import Router from "./router/Router";
 
 const root = createRoot(document.getElementById("root")!);
 
-root.render(<App />);
+root.render(<Router/>);
