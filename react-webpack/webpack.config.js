@@ -13,6 +13,10 @@ module.exports = {
   module: {
     rules: [
       {
+        test:/\.(css|less)$/i,
+        use:['style-loader','css-loader','less-loader'],
+      },
+      {
         test: /\.(js|ts|jsx|tsx)$/,
         exclude: /node_modules/,
         use: {
@@ -25,7 +29,7 @@ module.exports = {
             ],
           },
         },
-      },
+      }
     ],
   },
   experiments: {
