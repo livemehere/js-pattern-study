@@ -1,23 +1,13 @@
-import {FC, useState} from "react";
+import Link from "../router/Link";
+import Router from "../router/Router";
 
-interface Props {}
-
-const App: FC<Props> = () => {
-  const [list, setList] = useState([]);
-  const handleClick = (e:any) => {
-    setList(prev=> [...prev, Math.floor(Math.random()* 100)]);
-  };
-
-  return (
-    <div className="App">
-      <button onClick={handleClick}>click</button>
-      <ul>
-        {list.map((item, index) => (
-            <li key={index}>{item}</li>
-        ))}
-      </ul>
+export default function App(){
+    return <div>
+        <h1>Router</h1>
+        <nav>
+            <Link to={'/'}>Home</Link>
+            <Link to={'/about'}>About</Link>
+        </nav>
+        <Router/>
     </div>
-  );
-};
-
-export default App;
+}
