@@ -3,6 +3,7 @@
     "isolatedModules": true,
     "esModuleInterop": true,
     "noImplicitAny": true,
+    "allowJs": true,
     "jsx": "react-jsx",
     "lib": ["dom", "esnext"]
   },

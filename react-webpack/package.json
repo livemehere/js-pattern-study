@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "npx webpack --mode development --watch",
-    "serve": "nodemon server/index.ts"
+    "serve": "nodemon server/index.ts",
+    "build": "tsc -outDir build ./server/index.ts",
+    "start": "node build/index.js"
   },
   "keywords": [],
   "author": "",
