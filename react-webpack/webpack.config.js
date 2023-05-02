@@ -1,10 +1,12 @@
 const path = require("path");
 
 module.exports = {
-  entry: "./src/index.tsx",
+  entry: {
+    bundle: "./src/index.tsx",
+  },
   output: {
     path: path.resolve("dist"),
-    filename: "bundle.js",
+    filename: "[name].js",
   },
   target: ["web", "es5"],
   resolve: {
