@@ -28,4 +28,8 @@
 - 각도는 라디안 값을 기본으로 사용하고, `THREE.MathUtils.degToRad` 를 사용하여 각도를 라디안 값으로 변환하는 유틸을 제공한다.
 - requestAnimationFrame 과 비슷한 동작을 하는 renderer.setAnimationLoop() 를 사용하는 것이 좋다.
   - XR(VR) 환경에서는 필수 요소이다.
+- 애니메이션에서 수치는 화면 주사율에 따라 다르게 적용될 수 있기 때문에 보정이 필요하다
+  - `clock.getDelta()` 를 사용하여 보정
+  - `clock.getElapsedTime()` 를 사용하여 보정
+  - 혹은 Date.now() 를 사용해 직접 delta 값을 구하여 보정
 - 
