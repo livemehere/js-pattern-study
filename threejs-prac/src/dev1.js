@@ -2,8 +2,9 @@ import * as THREE from 'three';
 import gsap from 'gsap';
 
 /*
-* 안개 Fog
-* GSAP 애니메이션
+* 개발 도구
+* 1. AxesHelper : 축을 보여줌
+* 2. GridHelper : 격자를 보여줌
 * */
 export default function run(){
     const canvas = document.querySelector('#three-canvas');
@@ -19,29 +20,31 @@ export default function run(){
     light.position.x = 2;
     scene.add(light);
 
-    const fog = new THREE.Fog('#000000', 1, 10);
-    scene.fog = fog;
+    // 전반적으로 빛을 줄 때 사용
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+    scene.add(ambientLight);
 
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
-    camera.position.y = 1;
+    camera.position.y = 5;
     camera.position.z = 5;
 
     const geometry = new THREE.BoxGeometry(1,1,1);
     const material = new THREE.MeshStandardMaterial({color:'red'});
+    const mesh = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
 
-    const meshes = [];
-    for(let i = 0; i < 10; i++){
-        const mesh = new THREE.Mesh(geometry, material);
-        mesh.position.x = (Math.random() * 5) -2.5;
-        mesh.position.z = (Math.random() * 5) -2.5;
+    camera.lookAt(mesh.position);
 
-        scene.add(mesh);
-        meshes.push(mesh);
+    // 개발 도구 추가
+    const axesHelper = new THREE.AxesHelper(3);
+    scene.add(axesHelper);
 
-    }
+    const gridHelper = new THREE.GridHelper();
+    scene.add(gridHelper);
+
+
 
     setSize();
-
     function setSize(){
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix()
@@ -54,25 +57,11 @@ export default function run(){
 
     window.addEventListener('resize', setSize);
 
-    meshes.forEach(mesh=>{
-        gsap.to(mesh.rotation,{
-            y:6,
-            duration:2
-        })
-    })
-
-    const clock = new THREE.Clock();
     function animate(){
-        const delta = clock.getDelta();
-
-        // meshes.forEach(mesh => {
-        //     mesh.rotation.y += delta * 1;
-        //     mesh.rotation.x += delta * 0.5;
-        // })
-
-
         renderer.render(scene, camera)
-        // requestAnimationFrame(animate);
+
+        mesh.rotation.y += 0.01;
+
         renderer.setAnimationLoop(animate);
     }
     animate();
