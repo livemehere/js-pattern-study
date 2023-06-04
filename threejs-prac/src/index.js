@@ -1,3 +1,3 @@
-import run from "./ex3";
+import run from "./ex4";
 
 run();

@@ -1,5 +1,8 @@
 import * as THREE from 'three';
 
+/*
+* 빛사용해보기
+* */
 export default function run(){
     const canvas = document.querySelector('#three-canvas');
     const renderer = new THREE.WebGLRenderer({
