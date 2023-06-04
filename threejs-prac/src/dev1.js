@@ -35,6 +35,10 @@ export default function run(){
     const mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
 
+    mesh.rotation.reorder('YZX') // 회전축도 돌아가도록 한다.
+    mesh.rotation.y = 1;
+    mesh.rotation.x = 1;
+
     camera.lookAt(mesh.position);
 
     // 🔨개발 도구 추가
@@ -77,7 +81,6 @@ export default function run(){
 
         console.log(mesh.position.distanceTo(new THREE.Vector3(0,0,0))) // 백터의 거리 계산
 
-        mesh.rotation.y += 0.01;
         mesh.scale.x = 2;
         camera.lookAt(mesh.position)
 
