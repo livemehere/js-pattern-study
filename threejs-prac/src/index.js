@@ -8,20 +8,23 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement); // canvasElement
 
 
-const geometry = new THREE.BoxGeometry(1,1,1);
-const material = new THREE.MeshBasicMaterial({color:0x42bcf5})
-const cube = new THREE.Mesh(geometry,material) // Mesh extends Object3D
+const points = [];
+points.push( new THREE.Vector3(-10, 0,0));
+points.push( new THREE.Vector3(0, 10,0));
+points.push( new THREE.Vector3(10, 0,0));
 
-scene.add(cube) // Object3D 를 추가할 수 있음.
+const geometry = new THREE.BufferGeometry().setFromPoints(points);
+const material = new THREE.LineBasicMaterial({color:0xffffff});
+const line = new THREE.Line(geometry,material);
 
 function init(){
-    camera.position.z = 5;
+    camera.position.set(0,0,100)
+    camera.lookAt(0,0,0);
+    scene.add(line);
 }
 
 function update(){
-    cube.rotation.y += 0.01;
-    cube.rotation.z += 0.01;
-    cube.rotation.z += 0.01;
+
 }
 
 function animate(){
