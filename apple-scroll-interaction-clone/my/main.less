@@ -1,0 +1,27 @@
+html {
+  font-size: 14px;
+}
+
+body {
+  background: #d3d3d3;
+  height: 200vh;
+}
+
+h1 {
+  color: red;
+}
+
+svg {
+  path {
+    animation: loop infinite 10s linear;
+  }
+}
+
+@keyframes loop {
+  0% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: 1000;
+  }
+}
