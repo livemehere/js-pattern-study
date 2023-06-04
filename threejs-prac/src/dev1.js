@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import Stats from 'stats.js';
 import {GUI} from 'dat.gui';
 import gsap from 'gsap';
@@ -60,6 +61,7 @@ export default function run(){
     gui.add(camera.position,'x',-5,5,0.01).name('카메라 x 값')
     gui.add(light.position,'x',-5,5,0.01).name('빛 x 값')
 
+    const controls = new OrbitControls(camera, renderer.domElement);
 
 
     setSize();
