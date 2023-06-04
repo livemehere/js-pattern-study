@@ -25,6 +25,7 @@ export default function run(){
         camera.updateProjectionMatrix()
 
         renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio > 1 ? 2 : 1); // width, height, css 처리까지 해줌 (1 혹은 2로 하는 것이 성능면에서 유리하다)
         renderer.render(scene, camera)
 
     }
