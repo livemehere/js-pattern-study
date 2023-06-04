@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import Stats from 'stats.js';
 import {GUI} from 'dat.gui';
+import gsap from 'gsap';
 
 /*
 * 개발 도구
@@ -74,6 +75,8 @@ export default function run(){
         stats.begin();
         renderer.render(scene, camera)
 
+        console.log(mesh.position.distanceTo(new THREE.Vector3(0,0,0))) // 백터의 거리 계산
+
         mesh.rotation.y += 0.01;
         camera.lookAt(mesh.position)
 
@@ -81,5 +84,19 @@ export default function run(){
         stats.end();
     }
     animate();
+
+    window.addEventListener('keydown', (e)=>{
+        // arrow up move mesh z position -1
+        if(e.code === 'ArrowUp'){
+            gsap.to(mesh.position, {duration: 1, z: mesh.position.z - 1})
+        }else if(e.code === 'ArrowDown') {
+            gsap.to(mesh.position, {duration: 1, z: mesh.position.z + 1})
+        }else if(e.code === 'ArrowLeft') {
+            gsap.to(mesh.position, {duration: 1, x: mesh.position.x - 1})
+        }else if(e.code === 'ArrowRight') {
+            gsap.to(mesh.position, {duration: 1, x: mesh.position.x + 1})
+        }
+
+    })
 
 }
