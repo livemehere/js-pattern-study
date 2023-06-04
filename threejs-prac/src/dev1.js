@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import gsap from 'gsap';
+import Stats from 'stats.js';
 
 /*
 * 개발 도구
@@ -42,6 +42,10 @@ export default function run(){
     const gridHelper = new THREE.GridHelper();
     scene.add(gridHelper);
 
+    const stats = new Stats();
+    stats.showPanel(0);
+    document.body.appendChild(stats.dom);
+
 
 
     setSize();
@@ -58,11 +62,13 @@ export default function run(){
     window.addEventListener('resize', setSize);
 
     function animate(){
+        stats.begin();
         renderer.render(scene, camera)
 
         mesh.rotation.y += 0.01;
 
         renderer.setAnimationLoop(animate);
+        stats.end();
     }
     animate();
 
