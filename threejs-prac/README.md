@@ -22,3 +22,5 @@
 ## 알아낸 사실..
 
 - glTF 확장자 3D 모델 포맷이 가장 로딩이 빠르고, 추천한다. 하지만 threeJS 는 정말 다양한 로더를 지원하고있다.
+- PerspectiveCamera(원근 카메라) 는 `fov`, `aspect`, `near`, `far` 를 인자로 받는다.
+- OrthographicCamera(직교 카메라) 는 `left`, `right`, `top`, `bottom`, `near`, `far` 를 인자로 받는다.
