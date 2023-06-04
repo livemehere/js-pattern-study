@@ -1,8 +1,7 @@
 import * as THREE from 'three';
 
 /*
-* 애니메이션
-* - 보정
+* 안개 Fog
 * */
 export default function run(){
     const canvas = document.querySelector('#three-canvas');
@@ -18,14 +17,26 @@ export default function run(){
     light.position.x = 2;
     scene.add(light);
 
+    const fog = new THREE.Fog('#000000', 1, 10);
+    scene.fog = fog;
+
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
     camera.position.y = 1;
     camera.position.z = 5;
 
     const geometry = new THREE.BoxGeometry(1,1,1);
     const material = new THREE.MeshStandardMaterial({color:'red'});
-    const mesh = new THREE.Mesh(geometry, material);
-    scene.add(mesh);
+
+    const meshes = [];
+    for(let i = 0; i < 10; i++){
+        const mesh = new THREE.Mesh(geometry, material);
+        mesh.position.x = (Math.random() * 5) -2.5;
+        mesh.position.z = (Math.random() * 5) -2.5;
+
+        scene.add(mesh);
+        meshes.push(mesh);
+
+    }
 
     setSize();
 
@@ -41,17 +52,16 @@ export default function run(){
 
     window.addEventListener('resize', setSize);
 
-    let dy = 1;
     const clock = new THREE.Clock();
     function animate(){
-        // const time = clock.getElapsedTime(); // 총 경과시간
-        const delta = clock.getDelta(); // 마지막 프레임부터 경과시간  getElapsedTime()과 getDelta()는 같이 실행하면 꼬임. 같이사용x 호출 자체를 하면 안됨
+        const delta = clock.getDelta();
 
-        mesh.rotation.y += delta;
-        mesh.position.y += (delta) * dy;
-        if(mesh.position.y > 4 || mesh.position.y <= 0){
-            dy = -dy;
-        }
+        meshes.forEach(mesh => {
+            mesh.rotation.y += delta * 1;
+            mesh.rotation.x += delta * 0.5;
+        })
+
+
         renderer.render(scene, camera)
         // requestAnimationFrame(animate);
         renderer.setAnimationLoop(animate);
