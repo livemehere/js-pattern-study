@@ -78,6 +78,7 @@ export default function run(){
         console.log(mesh.position.distanceTo(new THREE.Vector3(0,0,0))) // 백터의 거리 계산
 
         mesh.rotation.y += 0.01;
+        mesh.scale.x = 2;
         camera.lookAt(mesh.position)
 
         renderer.setAnimationLoop(animate);
