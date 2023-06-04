@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import Stats from 'stats.js';
+import {GUI} from 'dat.gui';
 
 /*
 * 개발 도구
@@ -35,16 +36,24 @@ export default function run(){
 
     camera.lookAt(mesh.position);
 
-    // 개발 도구 추가
+    // 🔨개발 도구 추가
     const axesHelper = new THREE.AxesHelper(3);
     scene.add(axesHelper);
 
     const gridHelper = new THREE.GridHelper();
     scene.add(gridHelper);
 
+    // 초당 프레임 표시
     const stats = new Stats();
     stats.showPanel(0);
     document.body.appendChild(stats.dom);
+
+    const gui = new GUI();
+    gui.add(mesh.position,'y',-5,5,0.01).name('메시 y 값') // 객체, 속성, 최소, 최대, 단계
+    gui.add(camera.position,'y',-5,5,0.01).name('카메라 y 값')
+    gui.add(camera.position,'z',-5,5,0.01).name('카메라 z 값')
+    gui.add(camera.position,'x',-5,5,0.01).name('카메라 x 값')
+    gui.add(light.position,'x',-5,5,0.01).name('빛 x 값')
 
 
 
@@ -66,6 +75,7 @@ export default function run(){
         renderer.render(scene, camera)
 
         mesh.rotation.y += 0.01;
+        camera.lookAt(mesh.position)
 
         renderer.setAnimationLoop(animate);
         stats.end();
