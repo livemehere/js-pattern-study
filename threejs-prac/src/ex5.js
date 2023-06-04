@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import gsap from 'gsap';
 
 /*
 * 안개 Fog
@@ -52,14 +53,21 @@ export default function run(){
 
     window.addEventListener('resize', setSize);
 
+    meshes.forEach(mesh=>{
+        gsap.to(mesh.rotation,{
+            y:6,
+            duration:2
+        })
+    })
+
     const clock = new THREE.Clock();
     function animate(){
         const delta = clock.getDelta();
 
-        meshes.forEach(mesh => {
-            mesh.rotation.y += delta * 1;
-            mesh.rotation.x += delta * 0.5;
-        })
+        // meshes.forEach(mesh => {
+        //     mesh.rotation.y += delta * 1;
+        //     mesh.rotation.x += delta * 0.5;
+        // })
 
 
         renderer.render(scene, camera)
