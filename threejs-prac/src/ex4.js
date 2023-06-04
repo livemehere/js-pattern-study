@@ -41,9 +41,13 @@ export default function run(){
     window.addEventListener('resize', setSize);
 
     let dy = 1;
+    const clock = new THREE.Clock();
     function animate(){
-        mesh.rotation.y += THREE.MathUtils.degToRad(1);
-        mesh.position.y += 0.02 * dy;
+        // const time = clock.getElapsedTime(); // 총 경과시간
+        const delta = clock.getDelta(); // 마지막 프레임부터 경과시간  getElapsedTime()과 getDelta()는 같이 실행하면 꼬임. 같이사용x 호출 자체를 하면 안됨
+
+        mesh.rotation.y += delta;
+        mesh.position.y += (delta) * dy;
         if(mesh.position.y > 4 || mesh.position.y <= 0){
             dy = -dy;
         }
