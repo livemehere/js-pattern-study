@@ -32,4 +32,5 @@
   - `clock.getDelta()` 를 사용하여 보정
   - `clock.getElapsedTime()` 를 사용하여 보정
   - 혹은 Date.now() 를 사용해 직접 delta 값을 구하여 보정
-- 
+- material 에서 wireframe 을 사용하면 선으로만 그려져, 형태 파악하기 용이하다.
+- material 에서 `side: THREE.DoubleSide` 를 사용하면 양면을 모두 그린다.

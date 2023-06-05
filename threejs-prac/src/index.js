@@ -1,3 +1,3 @@
-import run from "./지구공전.js";
+import run from "./geometry1";
 
 run();
