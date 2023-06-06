@@ -24,6 +24,11 @@ export default function run(){
     const boxMesh = new THREE.Mesh(boxGeometry,material);
     const sphereMesh = new THREE.Mesh(sphereGeometry,material2);
     const planeMesh = new THREE.Mesh(planeGeometry,material3);
+
+    boxMesh.castShadow = true; // 그림자
+    sphereMesh.castShadow = true; // 그림자
+    planeMesh.receiveShadow = true; // 그림자
+
     planeMesh.rotation.x = Math.PI/ 180 * -90;
     boxMesh.position.set(2,1,0);
     sphereMesh.position.set(-2,1,0);
@@ -44,6 +49,13 @@ function create(animateFn){
     // light (태양 빛)
     const light = new THREE.DirectionalLight('#ffffff',0.8);
     light.position.set(0,5,0);
+    light.castShadow = true; // 그림자
+    light.shadow.mapSize.width = 1024; // 그림자 해상도
+    light.shadow.mapSize.height = 1024; // 그림자 해상도
+    light.shadow.radius = 10; // 그림자 부드럽게
+    light.shadow.camera.near = 0.1; // 그림자 카메라 near (그림자를 표시할 범위)
+    light.shadow.camera.far = 100; // 그림자 카메라 far (그림자를 표시할 범위)
+
     scene.add(light);
 
     // light2 (전반적인 빛)
@@ -54,6 +66,14 @@ function create(animateFn){
     const canvas = document.querySelector('#three-canvas');
     const renderer = new THREE.WebGLRenderer({ canvas });
     renderer.setSize(innerWidth, innerHeight);
+    renderer.shadowMap.enabled = true; // 그림자
+
+    // renderer.shadowMap.type = THREE.PCFSoftShadowMap; // 그림자
+    // renderer.shadowMap.type = THREE.BasicShadowMap; // 픽셀아트 느낌
+    // renderer.shadowMap.type = THREE.PCFShadowMap; // 그림자
+    // renderer.shadowMap.type = THREE.VSMShadowMap; // 그림자
+
+
 
     // helper
     const axesHelper = new THREE.AxesHelper(5);
