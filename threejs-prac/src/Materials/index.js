@@ -8,8 +8,17 @@ export default function run(){
         // 애니메이션
     });
 
+    const textureLoader = new THREE.TextureLoader();
+    const texture = textureLoader.load('/Brick_Wall_019_basecolor.jpg',()=>{
+        console.log('로딩 완료')
+    },()=>{
+        console.log('로딩중')
+    },()=>{
+        console.log('로딩 실패')
+    });
+
     const geometry = new THREE.BoxGeometry(2,2,2);
-    const material = new THREE.MeshStandardMaterial({color:'orange', roughness:0.1, metalness:0.9, flatShading:true, side:THREE.BackSide});
+    const material = new THREE.MeshBasicMaterial({ map:texture}); // texture 를 입혀도 Material 속성을 따라간다. (본래의 빛 대응속성, color, roughness 등)
     const mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
 
@@ -25,7 +34,7 @@ function create(animateFn){
 
     // light (태양 빛)
     const light = new THREE.DirectionalLight('#ffffff',2);
-    light.position.set(1,0,2);
+    light.position.set(1,1,2);
     scene.add(light);
 
     // light2 (전반적인 빛)
