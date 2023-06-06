@@ -67,7 +67,8 @@ function create(animateFn){
     document.body.appendChild(stats.dom);
 
     // controls
-    new OrbitControls(camera,canvas);
+    const controls = new OrbitControls(camera,canvas);
+    controls.enableDamping = true;
 
     // resize
     function resize(){
@@ -83,6 +84,7 @@ function create(animateFn){
         stats.begin();
         animateFn?.();
         renderer.render(scene, camera);
+        controls.update();
         stats.end();
     }
     animate();
