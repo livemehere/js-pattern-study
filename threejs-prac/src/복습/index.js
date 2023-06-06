@@ -46,6 +46,10 @@ function create(animateFn){
     const light2 = new THREE.AmbientLight('#ffffff',0.1);
     scene.add(light2)
 
+    // Fog (안개)
+    const fog = new THREE.Fog('#ffffff',1,15);
+    scene.fog = fog;
+
     // renderer
     const canvas = document.querySelector('#three-canvas');
     const renderer = new THREE.WebGLRenderer({ canvas });
