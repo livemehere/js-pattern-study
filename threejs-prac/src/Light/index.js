@@ -47,8 +47,8 @@ function create(animateFn){
     camera.position.set(0,4,4)
 
     // light (태양 빛)
-    const light = new THREE.PointLight('#ffffff',0.8,8,2);
-    light.position.set(0,1,0);
+    const light = new THREE.SpotLight('#ffffff',30,8,Math.PI/180*20);
+    light.position.set(5,5,0);
     light.castShadow = true; // 그림자
 
 
@@ -78,7 +78,7 @@ function create(animateFn){
     const gridHelper = new THREE.GridHelper();
     scene.add(gridHelper)
 
-    const lightHelper = new THREE.PointLightHelper(light);
+    const lightHelper = new THREE.SpotLightHelper(light);
     scene.add(lightHelper);
 
     const gui = new dat.GUI();
