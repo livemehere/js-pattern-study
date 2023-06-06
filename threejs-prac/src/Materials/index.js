@@ -23,9 +23,11 @@ export default function run(){
     }
 
     const textureLoader = new THREE.TextureLoader(loadingManager);
-    const texture = textureLoader.load('/map.png');
-    const geometry = new THREE.BoxGeometry( 2,2,2);
-    const material = new THREE.MeshNormalMaterial( {} );
+    const texture = textureLoader.load('https://makio135.com/matcaps/256/422509_C89536_824512_0A0604-256px.png');
+    const geometry = new THREE.SphereGeometry( 1,64,64);
+    const material = new THREE.MeshMatcapMaterial( {
+        matcap: texture,
+    } );
     const cone = new THREE.Mesh(geometry, material );
     scene.add(cone)
 
