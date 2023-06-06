@@ -9,8 +9,8 @@ export default function run(){
     });
 
     const geometry = new THREE.SphereGeometry(1,16,16);
-    const material = new THREE.MeshLambertMaterial({color:'orange'});
-    const meterial2 = new THREE.MeshPhongMaterial({color:'orange'});
+    const material = new THREE.MeshStandardMaterial({color:'orange'});
+    const meterial2 = new THREE.MeshPhongMaterial({color:'orange', shininess:1000});
     const mesh = new THREE.Mesh(geometry, material);
     const mesh2 = new THREE.Mesh(geometry, meterial2);
     mesh2.position.x = 2;
