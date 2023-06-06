@@ -3,26 +3,29 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import Stats from 'stats.js';
 
 export default function run(){
-    const mesh = createMesh();
-    const mesh2 = createMesh();
-    mesh2.position.set(2,2,2);
+    const circle = createCircle();
+    const arr = circle.geometry.attributes.position.array;
+    for(let i=0; i< arr.length; i+=3){
+        arr[i] += (Math.random() - 0.5)*0.2;
+        arr[i+1] += (Math.random() - 0.5)*0.2;
+        arr[i+2] += (Math.random() - 0.5)*0.2;
+    }
+    const clone = arr.slice();
+    const clock = new THREE.Clock();
 
-    mesh.rotation.reorder('YXZ');
-    mesh.rotation.y = THREE.MathUtils.degToRad(45);
-    mesh.rotation.x = THREE.MathUtils.degToRad(20);
-
-    // Group
-    const g1 = new THREE.Group();
-    g1.add(mesh)
-    g1.add(mesh2)
-
-    const scene = create(()=>{
+    const { scene } = create(()=>{
         // 애니메이션
-        g1.rotation.y += THREE.MathUtils.degToRad(1);
-
+        const delta = clock.getElapsedTime() * 10;
+        for(let i=0; i< clone.length; i+=3){
+            arr[i] += Math.sin(delta+clone[i]*10) * 0.003;
+            arr[i+1] += Math.sin(delta+clone[i+1]*10) * 0.003;
+            arr[i+2] += Math.sin(delta+clone[i+1]*10) * 0.003;
+        }
+        circle.geometry.attributes.position.needsUpdate = true;
     });
 
-    scene.add(g1);
+    scene.add(circle)
+
 
 }
 
@@ -80,7 +83,11 @@ function create(animateFn){
     }
     animate();
 
-    return scene;
+    return {
+        scene,
+        camera,
+        renderer,
+    };
 }
 function createMesh(x =0,y =0,z =0){
     // geometry
@@ -90,5 +97,10 @@ function createMesh(x =0,y =0,z =0){
     const material = new THREE.MeshStandardMaterial({color:'#ffffff'});
 
     // mesh
+    return new THREE.Mesh(geometry,material);
+}
+function createCircle(){
+    const geometry = new THREE.SphereGeometry(3,64,64);
+    const material = new THREE.MeshStandardMaterial({ color:'hotpink',flatShading:true });
     return new THREE.Mesh(geometry,material);
 }
