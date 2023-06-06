@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import Stats from 'stats.js';
+import {TrackballControls} from "three/addons/controls/TrackballControls";
 
 export default function run(){
     const circle = createCircle();
@@ -67,8 +68,7 @@ function create(animateFn){
     document.body.appendChild(stats.dom);
 
     // controls
-    const controls = new OrbitControls(camera,canvas);
-    controls.enableDamping = true;
+    const controls = new TrackballControls(camera,canvas);
 
     // resize
     function resize(){
