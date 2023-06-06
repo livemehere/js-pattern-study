@@ -2,6 +2,8 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import Stats from 'stats.js';
 import dat from "dat.gui";
+import {HemisphereLightHelper} from "three";
+import {RectAreaLightHelper} from "three/addons/helpers/RectAreaLightHelper";
 
 export default function run(){
 
@@ -47,13 +49,14 @@ function create(animateFn){
     camera.position.set(0,4,4)
 
     // light (태양 빛)
-    const light = new THREE.HemisphereLight('red','lime',8);
-    light.position.set(5,5,0);
+    const light = new THREE.RectAreaLight('red',1,2,2);
+    light.position.set(0,1,0);
+    light.rotation.y= Math.PI/ 180 * 90;
 
     scene.add(light);
 
     // light2 (전반적인 빛)
-    const light2 = new THREE.AmbientLight('#ffffff',0.05);
+    const light2 = new THREE.AmbientLight('#ffffff',0.1);
     scene.add(light2);
 
     // renderer
@@ -76,7 +79,8 @@ function create(animateFn){
     const gridHelper = new THREE.GridHelper();
     scene.add(gridHelper)
 
-    const lightHelper = new THREE.HemisphereLightHelper(light);
+    // const lightHelper = new THREE.HemisphereLightHelper(light);
+    const lightHelper = new RectAreaLightHelper(light);
     scene.add(lightHelper);
 
     const gui = new dat.GUI();
