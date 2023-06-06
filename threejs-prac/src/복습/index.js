@@ -7,18 +7,12 @@ export default function run(){
     const mesh2 = createMesh();
     mesh2.position.set(2,2,2);
 
-    let dx = 1;
-    const scene = create(()=>{
-        mesh.rotation.y += 0.01;
-        mesh2.rotation.z += 0.01;
-        mesh2.scale.x += dx * 0.05;
+    mesh.rotation.reorder('YXZ');
+    mesh.rotation.y = THREE.MathUtils.degToRad(45);
+    mesh.rotation.x = THREE.MathUtils.degToRad(20);
 
-        if(mesh2.scale.x > 3){
-            dx = -1;
-        }
-        if(mesh2.scale.x < 1){
-            dx = 1;
-        }
+    const scene = create(()=>{
+        // 애니메이션
     });
 
     scene.add(mesh);
