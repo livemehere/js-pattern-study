@@ -4,10 +4,6 @@ import Stats from 'stats.js';
 
 export default function run(){
 
-    const { scene,camera,canvas } = create(()=>{
-        // 애니메이션
-    });
-
     const loadingManager = new THREE.LoadingManager();
     loadingManager.onStart = () => {
         console.log('로딩 시작')
@@ -22,23 +18,37 @@ export default function run(){
         console.log('로딩 실패')
     }
 
-    const cubeTextureLoader = new THREE.CubeTextureLoader(loadingManager);
-    const envTex = cubeTextureLoader.setPath('/cubemap/').load([
-        'px.png','nx.png',
-        'py.png','ny.png',
-        'pz.png','nz.png',
-    ])
+    const canvasEl = document.createElement('canvas');
+    const ctx = canvasEl.getContext('2d');
+    canvasEl.width = 500;
+    canvasEl.height = 500;
 
-    const geometry = new THREE.SphereGeometry( 1, 32, 32);
+    const canvasTexture = new THREE.CanvasTexture(canvasEl);
+
+    const geometry = new THREE.BoxGeometry( 1,1,1);
     const material = new THREE.MeshBasicMaterial( {
-        envMap:envTex,
-        metalness:1.5,
-        roughness:0.1,
-
+        map:canvasTexture
     });
     const cone = new THREE.Mesh(geometry, material );
+
+    const clock = new THREE.Clock();
+
+    const { scene,camera,canvas } = create(()=>{
+        // 애니메이션
+        const elapsedTime = clock.getElapsedTime();
+        canvasTexture.needsUpdate = true;
+
+        ctx.fillStyle = 'green';
+        ctx.fillRect(0,0,500,500);
+
+        ctx.fillStyle = 'white';
+        ctx.font = '50px monospace';
+        ctx.fillText('태민짱',elapsedTime * 50,250);
+
+
+    });
+
     scene.add(cone)
-    scene.background = envTex;
 
 
 }
