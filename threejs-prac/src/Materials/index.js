@@ -22,17 +22,18 @@ export default function run(){
         console.log('로딩 실패')
     }
 
-    const textureLoader = new THREE.TextureLoader(loadingManager);
-    const baseTexture = textureLoader.load('/Brick_Wall_019_basecolor.jpg');
-    const texture = textureLoader.load('/Brick_Wall_019_normal.jpg');
-    const roughTex = textureLoader.load('/Brick_Wall_019_roughness.jpg');
-    const geometry = new THREE.BoxGeometry( 2,2,2);
-    const material = new THREE.MeshStandardMaterial( {
-        map:baseTexture,
-        roughness:0.5,
-        metalness:0.3,
-        normalMap:texture,
-        roughnessMap:roughTex,
+    const cubeTextureLoader = new THREE.CubeTextureLoader(loadingManager);
+    const envTex = cubeTextureLoader.setPath('/cubemap/').load([
+        'px.png','nx.png',
+        'py.png','ny.png',
+        'pz.png','nz.png',
+    ])
+
+    const geometry = new THREE.SphereGeometry( 1, 32, 32);
+    const material = new THREE.MeshBasicMaterial( {
+        envMap:envTex,
+        metalness:1.5,
+        roughness:0.1,
 
     });
     const cone = new THREE.Mesh(geometry, material );
