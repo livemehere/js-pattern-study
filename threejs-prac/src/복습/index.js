@@ -11,12 +11,18 @@ export default function run(){
     mesh.rotation.y = THREE.MathUtils.degToRad(45);
     mesh.rotation.x = THREE.MathUtils.degToRad(20);
 
+    // Group
+    const g1 = new THREE.Group();
+    g1.add(mesh)
+    g1.add(mesh2)
+
     const scene = create(()=>{
         // 애니메이션
+        g1.rotation.y += THREE.MathUtils.degToRad(1);
+
     });
 
-    scene.add(mesh);
-    scene.add(mesh2);
+    scene.add(g1);
 
 }
 
