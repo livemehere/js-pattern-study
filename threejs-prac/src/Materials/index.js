@@ -22,16 +22,32 @@ export default function run(){
         console.log('로딩 실패')
     }
     const textureLoader = new THREE.TextureLoader(loadingManager);
-    const texture = textureLoader.load('/Ground Skull_basecolor.jpg');
-    texture.wrapS = THREE.RepeatWrapping;
-    texture.wrapT = THREE.RepeatWrapping;
+    const rightTexture = textureLoader.load('/mcstyle/right.png');
+    const leftTexture = textureLoader.load('/mcstyle/left.png');
+    const topTexture = textureLoader.load('/mcstyle/top.png');
+    const bottomTexture = textureLoader.load('/mcstyle/bottom.png');
+    const frontTexture = textureLoader.load('/mcstyle/front.png');
+    const backTexture = textureLoader.load('/mcstyle/back.png');
 
-    texture.rotation = THREE.MathUtils.degToRad(30);
-    texture.center.set(0.5,0.5);
+    rightTexture.magFilter = THREE.NearestFilter;
+    leftTexture.magFilter = THREE.NearestFilter;
+    topTexture.magFilter = THREE.NearestFilter;
+    bottomTexture.magFilter = THREE.NearestFilter;
+    frontTexture.magFilter = THREE.NearestFilter;
+    backTexture.magFilter = THREE.NearestFilter;
+
+
+    const materialArray = [
+        new THREE.MeshBasicMaterial({map: rightTexture}),
+        new THREE.MeshBasicMaterial({map: leftTexture}),
+        new THREE.MeshBasicMaterial({map: topTexture}),
+        new THREE.MeshBasicMaterial({map: bottomTexture}),
+        new THREE.MeshBasicMaterial({map: frontTexture}),
+        new THREE.MeshBasicMaterial({map: backTexture}),
+    ]
 
     const geometry = new THREE.BoxGeometry(2,2,2);
-    const material = new THREE.MeshStandardMaterial({ map:texture}); // texture 를 입혀도 Material 속성을 따라간다. (본래의 빛 대응속성, color, roughness 등)
-    const mesh = new THREE.Mesh(geometry, material);
+    const mesh = new THREE.Mesh(geometry, materialArray);
     scene.add(mesh);
 
 }
