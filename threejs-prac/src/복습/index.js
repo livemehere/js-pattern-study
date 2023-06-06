@@ -5,6 +5,7 @@ import {TrackballControls} from "three/addons/controls/TrackballControls";
 import {FlyControls} from "three/addons/controls/FlyControls";
 import {PointerLockControls} from "three/addons/controls/PointerLockControls";
 import {DragControls} from "three/addons/controls/DragControls";
+import KeyController from "../KeyController";
 
 export default function run(){
     const circle = createCircle();
@@ -77,6 +78,28 @@ function create(animateFn){
     document.body.appendChild(stats.dom);
 
     // controls
+    const keyController = new KeyController();
+    const controls = new PointerLockControls(camera,canvas);
+    addEventListener('click',()=>{
+        controls.lock();
+    })
+
+    function walk(){
+        if(keyController.keys['w']){
+            controls.moveForward(0.1);
+        }
+        if(keyController.keys['s']){
+            controls.moveForward(-0.1);
+        }
+
+        if(keyController.keys['a']){
+            controls.moveRight(-0.1);
+        }
+
+        if(keyController.keys['d']){
+            controls.moveRight(0.1);
+        }
+    }
 
 
     // resize
@@ -93,6 +116,7 @@ function create(animateFn){
         requestAnimationFrame(animate);
         stats.begin();
         animateFn?.();
+        walk();
         renderer.render(scene, camera);
         stats.end();
     }
