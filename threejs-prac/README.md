@@ -37,3 +37,9 @@
 ### Material
 
 - `Material` 은 Vertex(점) 와 Edge(선), Face(면) 으로 구성된다.
+
+## gLTF
+
+- glTF 는 3D 모델 포맷이다.
+- glTF 는 JSON 포맷이다.
+- glb 는 glTF 포맷을 바이너리로 압축한 포맷이다.(블랜더)
