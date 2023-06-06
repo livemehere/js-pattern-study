@@ -38,6 +38,7 @@ export default function run(){
     });
     const cone = new THREE.Mesh(geometry, material );
     scene.add(cone)
+    scene.background = envTex;
 
 
 }
