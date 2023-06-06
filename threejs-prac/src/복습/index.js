@@ -3,6 +3,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import Stats from 'stats.js';
 import {TrackballControls} from "three/addons/controls/TrackballControls";
 import {FlyControls} from "three/addons/controls/FlyControls";
+import {PointerLockControls} from "three/addons/controls/PointerLockControls";
 
 export default function run(){
     const circle = createCircle();
@@ -69,10 +70,10 @@ function create(animateFn){
     document.body.appendChild(stats.dom);
 
     // controls
-    const controls = new FlyControls(camera,canvas);
-    controls.moveSpeed =1;
-    controls.rollSpeed = 0.1;
-    controls.dragToLook = true;
+    const controls = new PointerLockControls(camera,canvas);
+    canvas.addEventListener('click',()=>{
+        controls.lock();
+    })
 
     // resize
     function resize(){
@@ -89,7 +90,6 @@ function create(animateFn){
         stats.begin();
         animateFn?.();
         renderer.render(scene, camera);
-        controls.update( clock.getDelta());
         stats.end();
     }
     animate();
