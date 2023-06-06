@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import Stats from 'stats.js';
 import {TrackballControls} from "three/addons/controls/TrackballControls";
+import {FlyControls} from "three/addons/controls/FlyControls";
 
 export default function run(){
     const circle = createCircle();
@@ -68,7 +69,10 @@ function create(animateFn){
     document.body.appendChild(stats.dom);
 
     // controls
-    const controls = new TrackballControls(camera,canvas);
+    const controls = new FlyControls(camera,canvas);
+    controls.moveSpeed =1;
+    controls.rollSpeed = 0.1;
+    controls.dragToLook = true;
 
     // resize
     function resize(){
@@ -79,12 +83,13 @@ function create(animateFn){
     addEventListener('resize',resize);
 
 
+    const clock = new THREE.Clock();
     function animate(){
         requestAnimationFrame(animate);
         stats.begin();
         animateFn?.();
         renderer.render(scene, camera);
-        controls.update();
+        controls.update( clock.getDelta());
         stats.end();
     }
     animate();
