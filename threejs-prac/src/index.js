@@ -1,3 +1,3 @@
-import run from "./복습/index.js";
+import run from "./Materials";
 
 run();

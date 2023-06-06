@@ -5,7 +5,7 @@ import {TrackballControls} from "three/addons/controls/TrackballControls";
 import {FlyControls} from "three/addons/controls/FlyControls";
 import {PointerLockControls} from "three/addons/controls/PointerLockControls";
 import {DragControls} from "three/addons/controls/DragControls";
-import KeyController from "../KeyController";
+import KeyController from "../기초/KeyController";
 
 export default function run(){
     const circle = createCircle();
