@@ -13,12 +13,6 @@
 - Mesh : 특정 입자의 크기를 분류할 수 있는 망(입자라고 생각하면 될듯)
 - 종횡비 : `종` 분의 `횡` = `횡/종` = `가로/세로` = `너비/높이`
 
-
-### Geometry
-
-- `Geometry` 는 `뼈대`이다.
-- `Geometry` 는 `BufferGeometry` 로 만들어진다.
-
 ## 알아낸 사실..
 
 - glTF 확장자 3D 모델 포맷이 가장 로딩이 빠르고, 추천한다. 하지만 threeJS 는 정말 다양한 로더를 지원하고있다.
@@ -34,3 +28,12 @@
   - 혹은 Date.now() 를 사용해 직접 delta 값을 구하여 보정
 - material 에서 wireframe 을 사용하면 선으로만 그려져, 형태 파악하기 용이하다.
 - material 에서 `side: THREE.DoubleSide` 를 사용하면 양면을 모두 그린다.
+
+### Geometry
+
+- `Geometry` 는 `뼈대`이다.
+- `Geometry` 는 `BufferGeometry` 로 만들어진다.
+
+### Material
+
+- `Material` 은 Vertex(점) 와 Edge(선), Face(면) 으로 구성된다.

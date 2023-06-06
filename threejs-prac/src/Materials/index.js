@@ -8,14 +8,10 @@ export default function run(){
         // 애니메이션
     });
 
-    const geometry = new THREE.SphereGeometry(1,16,16);
-    const material = new THREE.MeshStandardMaterial({color:'orange', roughness:0.1, metalness:0.9, flatShading:true});
-    const meterial2 = new THREE.MeshPhongMaterial({color:'orange', shininess:1000, flatShading:true});
+    const geometry = new THREE.BoxGeometry(2,2,2);
+    const material = new THREE.MeshStandardMaterial({color:'orange', roughness:0.1, metalness:0.9, flatShading:true, side:THREE.BackSide});
     const mesh = new THREE.Mesh(geometry, material);
-    const mesh2 = new THREE.Mesh(geometry, meterial2);
-    mesh2.position.x = 2;
-    mesh.position.x = -2;
-    scene.add(mesh,mesh2);
+    scene.add(mesh);
 
 }
 
