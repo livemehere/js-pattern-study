@@ -4,55 +4,10 @@ import Stats from 'stats.js';
 
 export default function run(){
 
-    const points = [];
-    points.push(new THREE.Vector3(0,0,100))
-    points.push(new THREE.Vector3(0,0,-100))
-    const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
-    const lineMaterial = new THREE.LineBasicMaterial({color:'red'});
-    const line = new THREE.Line(lineGeometry, lineMaterial);
-
-    const cubeGeometry = new THREE.BoxGeometry(1,1,1);
-    const cubeMaterial = new THREE.MeshStandardMaterial({color:'blue'});
-    const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
-    cube.name = 'cube';
-
-    const geometry = new THREE.TorusGeometry( 2, 0.5, 50, 50 );
-    const material = new THREE.MeshBasicMaterial( { color: 'yellow' } );
-    const torus = new THREE.Mesh( geometry, material );
-    torus.name = 'torus';
-
-    const raycaster = new THREE.Raycaster();
-    const origin = new THREE.Vector3(0,0,100);
-    const direction = new THREE.Vector3(0,0,-100);
-    direction.normalize();
-
-    const meshes = [cube,torus];
 
 
-    const clock = new THREE.Clock();
-    const { scene,camera,canvas } = create(()=>{
-        // 애니메이션
-        cube.material.color.set('blue');
-        torus.material.color.set('yellow');
 
-        const elapsedTime = clock.getElapsedTime();
-        raycaster.set(origin, direction);
-        const intersects = raycaster.intersectObjects(meshes);
-        intersects.forEach(intersect=>{
-            intersect.object.material.color.set('red')
-        })
-
-
-        cube.position.y = Math.sin(elapsedTime*3) * 1.5;
-        torus.position.y = Math.sin(elapsedTime*3) * 1.5;
-
-    });
-
-    scene.add(line);
-    scene.add(cube);
-    scene.add(torus);
-
-
+    const { scene,camera,canvas } = create();
 
 }
 
@@ -101,16 +56,59 @@ function create(animateFn){
     }
     addEventListener('resize',resize);
 
+    // RUN
+    const cubeGeometry = new THREE.BoxGeometry(1,1,1);
+    const cubeMaterial = new THREE.MeshStandardMaterial({color:'blue'});
+    const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+    cube.name = 'cube';
+
+    const geometry = new THREE.TorusGeometry( 2, 0.5, 50, 50 );
+    const material = new THREE.MeshBasicMaterial( { color: 'yellow' } );
+    const torus = new THREE.Mesh( geometry, material );
+    torus.name = 'torus';
+
+    scene.add(cube);
+    scene.add(torus);
+
+    const meshes = [cube,torus];
+
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+
 
     const clock = new THREE.Clock();
     function animate(){
         requestAnimationFrame(animate);
         stats.begin();
-        animateFn?.();
+        // animte
+        cube.material.color.set('blue');
+        torus.material.color.set('yellow');
+
+        const elapsedTime = clock.getElapsedTime();
+
+        cube.position.y = Math.sin(elapsedTime*3) * 1.5;
+        torus.position.y = Math.sin(elapsedTime*3) * 1.5;
+
+        raycaster.setFromCamera(mouse,camera);
+        const intersects = raycaster.intersectObjects(scene.children);
+        for(let item of intersects){
+            item.object.material.color.set('red');
+            break;
+        }
+        mouse.x = 10000;
+        mouse.y = 10000;
+
+
         renderer.render(scene, camera);
         stats.end();
     }
     animate();
+
+
+    canvas.addEventListener('click',(event)=>{
+        mouse.x = (event.clientX / innerWidth) * 2 - 1;
+        mouse.y = -(event.clientY / innerHeight) * 2 + 1;
+    })
 
     return {
         scene,
