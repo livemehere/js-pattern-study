@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import Stats from 'stats.js';
 
 export default function run(){
     const mesh = createMesh();
@@ -45,6 +46,10 @@ function create(animateFn){
     const gridHelper = new THREE.GridHelper();
     scene.add(gridHelper)
 
+    // FPS 표시
+    const stats = new Stats();
+    document.body.appendChild(stats.dom);
+
     // controls
     new OrbitControls(camera,canvas);
 
@@ -59,8 +64,10 @@ function create(animateFn){
 
     function animate(){
         requestAnimationFrame(animate);
+        stats.begin();
         animateFn?.();
         renderer.render(scene, camera);
+        stats.end();
     }
     animate();
 
