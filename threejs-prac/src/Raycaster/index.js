@@ -77,6 +77,8 @@ function create(animateFn){
 
 
     const clock = new THREE.Clock();
+    let mouseStartTime;
+    let clickTimeGap;
     function animate(){
         requestAnimationFrame(animate);
         stats.begin();
@@ -89,14 +91,7 @@ function create(animateFn){
         cube.position.y = Math.sin(elapsedTime*3) * 1.5;
         torus.position.y = Math.sin(elapsedTime*3) * 1.5;
 
-        raycaster.setFromCamera(mouse,camera);
-        const intersects = raycaster.intersectObjects(scene.children);
-        for(let item of intersects){
-            item.object.material.color.set('red');
-            break;
-        }
-        mouse.x = 10000;
-        mouse.y = 10000;
+        checkIntersects();
 
 
         renderer.render(scene, camera);
@@ -104,10 +99,30 @@ function create(animateFn){
     }
     animate();
 
+    function checkIntersects(){
+        raycaster.setFromCamera(mouse,camera);
+        const intersects = raycaster.intersectObjects(scene.children);
+        for(let item of intersects){
+            if(clickTimeGap > 500) return;
+            item.object.material.color.set('red');
+            break;
+        }
+        mouse.x = 10000;
+        mouse.y = 10000;
+
+    }
+
+
 
     canvas.addEventListener('click',(event)=>{
+        mouseStartTime = Date.now();
         mouse.x = (event.clientX / innerWidth) * 2 - 1;
         mouse.y = -(event.clientY / innerHeight) * 2 + 1;
+    })
+
+    canvas.addEventListener('mouseup',(event)=>{
+        clickTimeGap = Date.now() - mouseStartTime;
+        console.log(clickTimeGap);
     })
 
     return {
