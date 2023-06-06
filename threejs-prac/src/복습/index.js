@@ -48,6 +48,14 @@ function create(animateFn){
     // controls
     new OrbitControls(camera,canvas);
 
+    // resize
+    function resize(){
+        renderer.setSize(innerWidth, innerHeight);
+        camera.aspect = innerWidth/innerHeight;
+        camera.updateProjectionMatrix()
+    }
+    addEventListener('resize',resize);
+
 
     function animate(){
         requestAnimationFrame(animate);
