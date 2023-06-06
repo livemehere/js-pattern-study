@@ -8,17 +8,25 @@ export default function run(){
         // 애니메이션
     });
 
-    const textureLoader = new THREE.TextureLoader();
-    const texture = textureLoader.load('/Brick_Wall_019_basecolor.jpg',()=>{
+    const loadingManager = new THREE.LoadingManager();
+    loadingManager.onStart = () => {
+        console.log('로딩 시작')
+    }
+    loadingManager.onLoad = () => {
         console.log('로딩 완료')
-    },()=>{
-        console.log('로딩중')
-    },()=>{
+    }
+    loadingManager.onProgress = (img) => {
+        console.log(img+' 로딩중')
+    }
+    loadingManager.onError = () => {
         console.log('로딩 실패')
-    });
+    }
+    const textureLoader = new THREE.TextureLoader(loadingManager);
+    const texture = textureLoader.load('/Brick_Wall_019_basecolor.jpg');
+    const texture2 = textureLoader.load('/Brick_Wall_019_height.png');
 
     const geometry = new THREE.BoxGeometry(2,2,2);
-    const material = new THREE.MeshBasicMaterial({ map:texture}); // texture 를 입혀도 Material 속성을 따라간다. (본래의 빛 대응속성, color, roughness 등)
+    const material = new THREE.MeshStandardMaterial({ map:texture2}); // texture 를 입혀도 Material 속성을 따라간다. (본래의 빛 대응속성, color, roughness 등)
     const mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
 
