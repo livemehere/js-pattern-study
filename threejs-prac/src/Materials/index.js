@@ -21,34 +21,14 @@ export default function run(){
     loadingManager.onError = () => {
         console.log('로딩 실패')
     }
+
     const textureLoader = new THREE.TextureLoader(loadingManager);
-    const rightTexture = textureLoader.load('/mcstyle/right.png');
-    const leftTexture = textureLoader.load('/mcstyle/left.png');
-    const topTexture = textureLoader.load('/mcstyle/top.png');
-    const bottomTexture = textureLoader.load('/mcstyle/bottom.png');
-    const frontTexture = textureLoader.load('/mcstyle/front.png');
-    const backTexture = textureLoader.load('/mcstyle/back.png');
+    const texture = textureLoader.load('/map.png');
+    const geometry = new THREE.ConeGeometry( 1, 2, 128 );
+    const material = new THREE.MeshToonMaterial( {color: 'plum',gradientMap:texture } );
+    const cone = new THREE.Mesh(geometry, material );
+    scene.add(cone)
 
-    rightTexture.magFilter = THREE.NearestFilter;
-    leftTexture.magFilter = THREE.NearestFilter;
-    topTexture.magFilter = THREE.NearestFilter;
-    bottomTexture.magFilter = THREE.NearestFilter;
-    frontTexture.magFilter = THREE.NearestFilter;
-    backTexture.magFilter = THREE.NearestFilter;
-
-
-    const materialArray = [
-        new THREE.MeshBasicMaterial({map: rightTexture}),
-        new THREE.MeshBasicMaterial({map: leftTexture}),
-        new THREE.MeshBasicMaterial({map: topTexture}),
-        new THREE.MeshBasicMaterial({map: bottomTexture}),
-        new THREE.MeshBasicMaterial({map: frontTexture}),
-        new THREE.MeshBasicMaterial({map: backTexture}),
-    ]
-
-    const geometry = new THREE.BoxGeometry(2,2,2);
-    const mesh = new THREE.Mesh(geometry, materialArray);
-    scene.add(mesh);
 
 }
 
