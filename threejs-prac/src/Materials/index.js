@@ -23,11 +23,18 @@ export default function run(){
     }
 
     const textureLoader = new THREE.TextureLoader(loadingManager);
-    const texture = textureLoader.load('https://makio135.com/matcaps/256/422509_C89536_824512_0A0604-256px.png');
-    const geometry = new THREE.SphereGeometry( 1,64,64);
-    const material = new THREE.MeshMatcapMaterial( {
-        matcap: texture,
-    } );
+    const baseTexture = textureLoader.load('/Brick_Wall_019_basecolor.jpg');
+    const texture = textureLoader.load('/Brick_Wall_019_normal.jpg');
+    const roughTex = textureLoader.load('/Brick_Wall_019_roughness.jpg');
+    const geometry = new THREE.BoxGeometry( 2,2,2);
+    const material = new THREE.MeshStandardMaterial( {
+        map:baseTexture,
+        roughness:0.5,
+        metalness:0.3,
+        normalMap:texture,
+        roughnessMap:roughTex,
+
+    });
     const cone = new THREE.Mesh(geometry, material );
     scene.add(cone)
 
@@ -44,12 +51,12 @@ function create(animateFn){
 
     // light (태양 빛)
     const light = new THREE.DirectionalLight('#ffffff',2);
-    light.position.set(1,1,2);
+    light.position.set(5,5,5);
     scene.add(light);
 
     // light2 (전반적인 빛)
     const light2 = new THREE.AmbientLight('#ffffff',0.1);
-    scene.add(light2)
+    scene.add(light2);
 
     // renderer
     const canvas = document.querySelector('#three-canvas');
