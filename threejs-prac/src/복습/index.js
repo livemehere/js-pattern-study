@@ -4,9 +4,11 @@ import Stats from 'stats.js';
 import {TrackballControls} from "three/addons/controls/TrackballControls";
 import {FlyControls} from "three/addons/controls/FlyControls";
 import {PointerLockControls} from "three/addons/controls/PointerLockControls";
+import {DragControls} from "three/addons/controls/DragControls";
 
 export default function run(){
     const circle = createCircle();
+    circle.name = 'kong-circle'
     const arr = circle.geometry.attributes.position.array;
     for(let i=0; i< arr.length; i+=3){
         arr[i] += (Math.random() - 0.5)*0.2;
@@ -16,7 +18,7 @@ export default function run(){
     const clone = arr.slice();
     const clock = new THREE.Clock();
 
-    const { scene } = create(()=>{
+    const { scene,camera,canvas } = create(()=>{
         // 애니메이션
         const delta = clock.getElapsedTime() * 10;
         for(let i=0; i< clone.length; i+=3){
@@ -28,6 +30,11 @@ export default function run(){
     });
 
     scene.add(circle)
+    const controls = new DragControls([circle],camera,canvas); // mesh 가 생성된 이후 시점에서 세팅 가능
+
+    controls.addEventListener('dragstart',function(event){
+        console.log('dragstart',event.object.name);
+    })
 
 
 }
@@ -70,10 +77,7 @@ function create(animateFn){
     document.body.appendChild(stats.dom);
 
     // controls
-    const controls = new PointerLockControls(camera,canvas);
-    canvas.addEventListener('click',()=>{
-        controls.lock();
-    })
+
 
     // resize
     function resize(){
@@ -98,6 +102,7 @@ function create(animateFn){
         scene,
         camera,
         renderer,
+        canvas
     };
 }
 function createMesh(x =0,y =0,z =0){
