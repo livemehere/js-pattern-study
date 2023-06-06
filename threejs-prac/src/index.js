@@ -1,3 +1,3 @@
-import run from "./Materials";
+import run from "./Light";
 
 run();
