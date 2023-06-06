@@ -44,17 +44,13 @@ function create(animateFn){
 
     // camera
     const camera = new THREE.PerspectiveCamera(75, innerWidth/innerHeight, 0.1, 1000);
-    camera.position.set(0,8,8)
+    camera.position.set(0,4,4)
 
     // light (태양 빛)
-    const light = new THREE.DirectionalLight('#ffffff',0.8);
-    light.position.set(0,5,0);
+    const light = new THREE.PointLight('#ffffff',0.8,8,2);
+    light.position.set(0,1,0);
     light.castShadow = true; // 그림자
-    light.shadow.mapSize.width = 1024; // 그림자 해상도
-    light.shadow.mapSize.height = 1024; // 그림자 해상도
-    light.shadow.radius = 10; // 그림자 부드럽게
-    light.shadow.camera.near = 0.1; // 그림자 카메라 near (그림자를 표시할 범위)
-    light.shadow.camera.far = 100; // 그림자 카메라 far (그림자를 표시할 범위)
+
 
     scene.add(light);
 
@@ -82,7 +78,7 @@ function create(animateFn){
     const gridHelper = new THREE.GridHelper();
     scene.add(gridHelper)
 
-    const lightHelper = new THREE.DirectionalLightHelper(light);
+    const lightHelper = new THREE.PointLightHelper(light);
     scene.add(lightHelper);
 
     const gui = new dat.GUI();
@@ -112,8 +108,8 @@ function create(animateFn){
         stats.begin();
         animateFn?.();
 
-        light.position.x = Math.sin(Date.now()/1000) * 5;
-        light.position.z = Math.cos(Date.now()/1000) * 5;
+        // light.position.x = Math.sin(Date.now()/1000) * 5;
+        // light.position.z = Math.cos(Date.now()/1000) * 5;
 
 
 
