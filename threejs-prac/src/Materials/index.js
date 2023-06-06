@@ -24,8 +24,8 @@ export default function run(){
 
     const textureLoader = new THREE.TextureLoader(loadingManager);
     const texture = textureLoader.load('/map.png');
-    const geometry = new THREE.ConeGeometry( 1, 2, 128 );
-    const material = new THREE.MeshToonMaterial( {color: 'plum',gradientMap:texture } );
+    const geometry = new THREE.BoxGeometry( 2,2,2);
+    const material = new THREE.MeshNormalMaterial( {} );
     const cone = new THREE.Mesh(geometry, material );
     scene.add(cone)
 
@@ -38,7 +38,7 @@ function create(animateFn){
 
     // camera
     const camera = new THREE.PerspectiveCamera(75, innerWidth/innerHeight, 0.1, 1000);
-    camera.position.set(0,0,5)
+    camera.position.set(3,3,3)
 
     // light (태양 빛)
     const light = new THREE.DirectionalLight('#ffffff',2);
