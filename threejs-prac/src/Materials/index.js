@@ -22,11 +22,15 @@ export default function run(){
         console.log('로딩 실패')
     }
     const textureLoader = new THREE.TextureLoader(loadingManager);
-    const texture = textureLoader.load('/Brick_Wall_019_basecolor.jpg');
-    const texture2 = textureLoader.load('/Brick_Wall_019_height.png');
+    const texture = textureLoader.load('/Ground Skull_basecolor.jpg');
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.wrapT = THREE.RepeatWrapping;
+
+    texture.rotation = THREE.MathUtils.degToRad(30);
+    texture.center.set(0.5,0.5);
 
     const geometry = new THREE.BoxGeometry(2,2,2);
-    const material = new THREE.MeshStandardMaterial({ map:texture2}); // texture 를 입혀도 Material 속성을 따라간다. (본래의 빛 대응속성, color, roughness 등)
+    const material = new THREE.MeshStandardMaterial({ map:texture}); // texture 를 입혀도 Material 속성을 따라간다. (본래의 빛 대응속성, color, roughness 등)
     const mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
 
@@ -38,7 +42,7 @@ function create(animateFn){
 
     // camera
     const camera = new THREE.PerspectiveCamera(75, innerWidth/innerHeight, 0.1, 1000);
-    camera.position.set(2,5,5)
+    camera.position.set(0,0,5)
 
     // light (태양 빛)
     const light = new THREE.DirectionalLight('#ffffff',2);
