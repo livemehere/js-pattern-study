@@ -24,8 +24,19 @@ export default function run(){
 
     /* PlayGround */
 
+    // material 기본 충돌 설정
+    const defaultMaterial = new CANNON.Material('default');
+    const defaultContactMaterial = new CANNON.ContactMaterial(
+        defaultMaterial,
+        defaultMaterial,
+        {
+            friction:0.5,
+            restitution:0.3
+    });
+
     const cannonWorld = new CANNON.World();
     cannonWorld.gravity.set(0,-9.82,0);
+    cannonWorld.defaultContactMaterial = defaultContactMaterial;
 
     const groundBody = new CANNON.Body({
         mass:0,
