@@ -20,18 +20,28 @@ export default function run(){
 
 
     const gltfLoader = new GLTFLoader();
-    gltfLoader.load('/models/man.glb', (gltf)=>{
+    gltfLoader.load('/models/t-rex.glb', (gltf)=>{
         const manMesh = gltf.scene.children[0];
-        scene.add(manMesh)
+        // append texture
+        const textureLoader = new THREE.TextureLoader();
+        const texture = textureLoader.load('/models/textures/gltf_embedded_0.png');
+
+        manMesh.traverse((child)=>{
+          if(child.isMesh){
+                child.material.map = texture;
+                child.material.metalness = 0.2;
+                child.material.roughness = 0.7;
+                child.material.needsUpdate = true;
+          }
+        })
+
+        scene.add(manMesh);
 
         mixer = new THREE.AnimationMixer(manMesh);
         const actions = [];
         gltf.animations.forEach((animation)=>{
             actions.push(mixer.clipAction(animation))
         })
-        console.log(actions)
-        actions[1].repetitions = 1; // 기본은 무한반복인데, 1번만 실행하도록
-        actions[1].clampWhenFinished = true; // 원위치가 기본인데, 애니메이션 시작위치로 종료하기
         actions[1].play();
     })
 }
