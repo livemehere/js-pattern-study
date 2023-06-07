@@ -46,12 +46,12 @@ export default function run(){
     groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1,0,0),-Math.PI/2);
     cannonWorld.addBody(groundBody);
 
-    const boxBody = new CANNON.Body({
+    const sphereBody = new CANNON.Body({
         mass:3,
-        shape:new CANNON.Box(new CANNON.Vec3(0.25,2.5,0.5)),
-        position:new CANNON.Vec3(0,10,0)
+        shape:new CANNON.Sphere(1),
+        position:new CANNON.Vec3(0,5,0)
     })
-    cannonWorld.addBody(boxBody);
+    cannonWorld.addBody(sphereBody);
 
     const planeGeometry = new THREE.PlaneGeometry(10,10);
     const planeMaterial = new THREE.MeshPhongMaterial({color:'gray'});
@@ -59,11 +59,15 @@ export default function run(){
     plane.rotation.x = -Math.PI/2;
     scene.add(plane);
 
-    const boxGeometry = new THREE.BoxGeometry(0.5,5,1);
+    const sphereGeometry = new THREE.SphereGeometry(1,64,64);
     const boxMaterial = new THREE.MeshPhongMaterial({color:'hotpink'});
-    const box = new THREE.Mesh(boxGeometry,boxMaterial);
-    box.position.set(0,0.5,0);
-    scene.add(box);
+    const sphere = new THREE.Mesh(sphereGeometry,boxMaterial);
+    sphere.position.set(0,0.5,0);
+    scene.add(sphere);
+
+    addEventListener('click',()=>{
+        sphereBody.applyForce(new CANNON.Vec3(100,0,0),sphereBody.position);
+    })
 
     /* - */
 
@@ -79,8 +83,16 @@ export default function run(){
         }
         cannonWorld.step(cannonStep,delta,3);
         groundBody.position.copy(plane.position);
-        box.position.copy(boxBody.position);
-        box.quaternion.copy(boxBody.quaternion);
+        sphere.position.copy(sphereBody.position);
+        sphere.quaternion.copy(sphereBody.quaternion);
+
+        // sphere velocity miuus
+        sphereBody.velocity.x *= 0.99;
+        sphereBody.velocity.y *= 0.99;
+        sphereBody.velocity.z *= 0.99;
+        sphereBody.angularVelocity.x *= 0.99;
+        sphereBody.angularVelocity.y *= 0.99;
+        sphereBody.angularVelocity.z *= 0.99;
 
         renderer.render(scene,camera);
         requestAnimationFrame(animate);
