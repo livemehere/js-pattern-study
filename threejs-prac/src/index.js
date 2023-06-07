@@ -1,3 +1,3 @@
-import run from "./Model";
+import run from "./Physics";
 
 run();
