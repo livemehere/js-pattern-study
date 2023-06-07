@@ -10,8 +10,11 @@ import {GLTFLoader} from "three/addons/loaders/GLTFLoader";
 
 export default function run(){
 
+    let mixer;
+    const clock = new THREE.Clock();
     const { scene,camera,canvas } = create(()=>{
         // 애니메이션
+        mixer?.update(clock.getDelta());
 
     });
 
@@ -20,6 +23,16 @@ export default function run(){
     gltfLoader.load('/models/man.glb', (gltf)=>{
         const manMesh = gltf.scene.children[0];
         scene.add(manMesh)
+
+        mixer = new THREE.AnimationMixer(manMesh);
+        const actions = [];
+        gltf.animations.forEach((animation)=>{
+            actions.push(mixer.clipAction(animation))
+        })
+        console.log(actions)
+        actions[1].repetitions = 1; // 기본은 무한반복인데, 1번만 실행하도록
+        actions[1].clampWhenFinished = true; // 원위치가 기본인데, 애니메이션 시작위치로 종료하기
+        actions[1].play();
     })
 }
 
