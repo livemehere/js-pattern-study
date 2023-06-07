@@ -1,3 +1,3 @@
-import run from "./Raycaster";
+import run from "./Model";
 
 run();
