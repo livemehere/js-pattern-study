@@ -29,11 +29,12 @@ export default class App {
         this.balls = [];
 
         addEventListener('resize', this.resize.bind(this));
-        addEventListener('click',this.addBall.bind(this));
+        this.canvas.addEventListener('click',this.addBall.bind(this));
         this.resize();
         this.animate();
         this.setLight();
         this.setDefaultContactMaterial();
+        this.addRemoveBtn();
     }
 
     resize(){
@@ -84,6 +85,19 @@ export default class App {
         this.world.defaultContactMaterial = new CANNON.ContactMaterial(material, material, {
             friction: 1,
             restitution: 0.5
+        });
+    }
+
+    addRemoveBtn(){
+        const btn = document.createElement('button');
+        btn.innerText = 'Add Ball';
+        btn.style.position = 'absolute';
+        btn.style.top = '10px';
+        btn.style.left = '10px';
+        btn.style.zIndex = '999';
+        document.body.appendChild(btn);
+        btn.addEventListener('click', ()=>{
+            this.balls.forEach(ball => ball.remove());
         });
 
     }
