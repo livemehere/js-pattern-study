@@ -1,13 +1,12 @@
 import * as THREE from 'three';
 import Plain from "./Plain";
 import {OrbitControls} from "three/addons/controls/OrbitControls.js";
-import {Sphere} from "three";
 import Ball from "./Ball";
+import * as CANNON from "cannon-es";
 
 export default class App {
     constructor() {
 
-        this.balls = [];
 
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
@@ -21,15 +20,20 @@ export default class App {
         this.renderer.render(this.scene, this.camera);
 
         this.controls = new OrbitControls(this.camera, this.canvas);
+        this.controls.enableDamping = true;
+
+        this.world = new CANNON.World();
+        this.world.gravity.set(0, -9.82, 0);
+
+        this.plane = new Plain({scene: this.scene,world:this.world, width: 10, height: 10, color:'gray'});
+        this.balls = [];
 
         addEventListener('resize', this.resize.bind(this));
         addEventListener('click',this.addBall.bind(this));
         this.resize();
         this.animate();
         this.setLight();
-
-        new Plain({scene: this.scene, width: 10, height: 10, color:'gray'});
-
+        this.setDefaultContactMaterial();
     }
 
 
@@ -44,6 +48,15 @@ export default class App {
 
         // animate code here
 
+        this.balls.forEach(ball => {
+            ball.sphere.position.copy(ball.body.position);
+            ball.sphere.quaternion.copy(ball.body.quaternion);
+        })
+        this.plane.plain.position.copy(this.plane.body.position);
+        this.plane.plain.quaternion.copy(this.plane.body.quaternion);
+
+        this.world.step(1/60);
+        this.controls.update();
         this.renderer.render(this.scene, this.camera);
     }
 
@@ -57,12 +70,22 @@ export default class App {
     }
 
     addBall(){
-        const radius = Math.random() + 0.2;
+        const radius = Math.random() * 0.5 + 0.2;
         const x = Math.random() * 4 - 2;
         const z = Math.random() * 4 - 2;
-        const y = radius;
+        const y = radius + Math.random()*3;
+        const color = `hsl(${Math.random()*360}, 100%, 50%)`;
 
-        const ball = new Ball({scene:this.scene, radius, color: 'red', x, y, z});
+        const ball = new Ball({scene:this.scene,world:this.world, radius, color, x, y, z});
         this.balls.push(ball);
+    }
+
+    setDefaultContactMaterial(){
+        const material = new CANNON.Material('default');
+        this.world.defaultContactMaterial = new CANNON.ContactMaterial(material, material, {
+            friction: 1,
+            restitution: 0.5
+        });
+
     }
 }
