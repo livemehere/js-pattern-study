@@ -1,3 +1,3 @@
-import run from "./Physics";
+import App from "./Physics-again/App";
 
-run();
+new App();
