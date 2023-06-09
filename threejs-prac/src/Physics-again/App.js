@@ -36,7 +36,6 @@ export default class App {
         this.setDefaultContactMaterial();
     }
 
-
     resize(){
         this.camera.aspect = window.innerWidth / window.innerHeight;
         this.camera.updateProjectionMatrix();
