@@ -4,6 +4,7 @@ import {OrbitControls} from "three/addons/controls/OrbitControls.js";
 import Ball from "./Ball";
 import * as CANNON from "cannon-es";
 import Domino from "./Domino";
+import gsap from 'gsap';
 
 export default class App {
     constructor() {
@@ -22,34 +23,69 @@ export default class App {
         this.controls = new OrbitControls(this.camera, this.canvas);
         this.controls.enableDamping = true;
 
+        /* 이미지 패널 */
 
-        const textureLoader = new THREE.TextureLoader();
-        const texture = textureLoader.load('/images/star.png');
-
-        const geometry = new THREE.BufferGeometry();
-        const count = 1000;
-        const positions = new Float32Array(count * 3);
-        const colors = new Float32Array(count * 3);
-
-        for(let i = 0; i < count * 3; i++) {
-            positions[i] = (Math.random() - 0.5) * 10;
-            colors[i] = Math.random();
+        const pannels = [];
+        const sphereGeometry = new THREE.SphereGeometry(1, 8, 8);
+        const positionArray = sphereGeometry.attributes.position.array;
+        const randomArray = [];
+        for (let i = 0; i < positionArray.length; i++) {
+            const random = (Math.random() - 0.5) * 10;
+            randomArray.push(random);
         }
 
-        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-        geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+        const textureLoader = new THREE.TextureLoader();
+        for (let i = 0; i < positionArray.length; i += 3) {
+            const texture = textureLoader.load(`/images/0${Math.ceil(Math.random() * 5)}.jpg`);
+            const planeMesh = new THREE.Mesh(
+                new THREE.PlaneGeometry(0.3, 0.3),
+                new THREE.MeshPhongMaterial({color: '#ffffff', side: THREE.DoubleSide, map: texture})
+            )
 
-        const material = new THREE.PointsMaterial({
-            map: texture,
-            size: 0.1,
-            alphaMap: texture,
-            transparent: true,
-            vertexColors: true,
-            depthWrite: false,
+            planeMesh.position.set(positionArray[i], positionArray[i + 1], positionArray[i + 2]);
+            planeMesh.lookAt(0, 0, 0);
+            this.scene.add(planeMesh);
+            pannels.push(planeMesh);
+        }
 
-        });
-        const sphere = new THREE.Points(geometry, material);
-        this.scene.add(sphere);
+        let status = 'sphere';
+        const btn = document.createElement('button');
+        btn.innerText = status;
+        btn.addEventListener('click', () => {
+            if (status === 'sphere') {
+                pannels.forEach((mesh, i) => {
+                    gsap.to(mesh.position, {
+                        x: positionArray[i * 3],
+                        y: positionArray[i * 3 + 1],
+                        z: positionArray[i * 3 + 2],
+                        duration: 1,
+                    })
+                })
+            } else {
+                pannels.forEach((mesh, i) => {
+                    gsap.to(mesh.position, {
+                        x: randomArray[i * 3],
+                        y: randomArray[i * 3 + 1],
+                        z: randomArray[i * 3 + 2],
+                        duration: 1,
+                    })
+
+                    gsap.to(mesh.rotation, {
+                        x: 0,
+                        y: 0,
+                        z: 0,
+                    })
+                })
+            }
+
+
+            status = status === 'sphere' ? 'random' : 'sphere';
+            btn.innerText = status;
+        })
+        btn.style.cssText = 'position: absolute; top: 20px; left: 20px; z-index: 999;'
+        document.body.appendChild(btn);
+
+        /* -- */
 
         addEventListener('resize', this.resize.bind(this));
         this.resize();
