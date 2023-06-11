@@ -8,12 +8,11 @@ import Domino from "./Domino";
 export default class App {
     constructor() {
 
-
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
         this.canvas = document.querySelector('#three-canvas');
 
-        this.camera.position.set(0, 5, 10);
+        this.camera.position.set(0, 2, 2);
         this.camera.lookAt(0, 0, 0);
 
         this.renderer = new THREE.WebGLRenderer({canvas: this.canvas});
@@ -23,27 +22,39 @@ export default class App {
         this.controls = new OrbitControls(this.camera, this.canvas);
         this.controls.enableDamping = true;
 
-        this.world = new CANNON.World();
-        this.world.gravity.set(0, -9.82, 0);
 
-        this.plane = new Plain({scene: this.scene, world: this.world, width: 100, height: 100, color: 'gray'});
+        const textureLoader = new THREE.TextureLoader();
+        const texture = textureLoader.load('/images/star.png');
 
-        this.dominos = [];
-        for (let i = 0; i < 20; i++) {
-            this.dominos.push(new Domino({
-                scene: this.scene,
-                world: this.world,
-                z: -i * 0.5,
-            }))
+        const geometry = new THREE.BufferGeometry();
+        const count = 1000;
+        const positions = new Float32Array(count * 3);
+        const colors = new Float32Array(count * 3);
+
+        for(let i = 0; i < count * 3; i++) {
+            positions[i] = (Math.random() - 0.5) * 10;
+            colors[i] = Math.random();
         }
 
+        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+        const material = new THREE.PointsMaterial({
+            map: texture,
+            size: 0.1,
+            alphaMap: texture,
+            transparent: true,
+            vertexColors: true,
+            depthWrite: false,
+
+        });
+        const sphere = new THREE.Points(geometry, material);
+        this.scene.add(sphere);
 
         addEventListener('resize', this.resize.bind(this));
         this.resize();
         this.animate();
         this.setLight();
-        this.setDefaultContactMaterial();
-        this.setMouseRayCaster();
     }
 
     resize() {
@@ -57,16 +68,6 @@ export default class App {
 
         // animate code here
 
-        this.dominos.forEach(domino => {
-            if (!domino.mesh) return;
-            domino.mesh.position.copy(domino.body.position);
-            domino.mesh.quaternion.copy(domino.body.quaternion);
-        })
-
-        this.plane.plain.position.copy(this.plane.body.position);
-        this.plane.plain.quaternion.copy(this.plane.body.quaternion);
-
-        this.world.step(1 / 60);
         this.controls.update();
         this.renderer.render(this.scene, this.camera);
     }
@@ -80,34 +81,4 @@ export default class App {
         this.scene.add(this.ambientLight);
     }
 
-
-    setDefaultContactMaterial() {
-        const material = new CANNON.Material('default');
-        this.world.defaultContactMaterial = new CANNON.ContactMaterial(material, material, {
-            friction: 0.01,
-            restitution: 1
-        });
-    }
-
-    setMouseRayCaster() {
-        this.mouse = new THREE.Vector2();
-        this.raycaster = new THREE.Raycaster();
-
-        addEventListener('click', this.onClick.bind(this));
-    }
-
-    onClick(e) {
-        this.mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-        this.mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-
-        this.raycaster.setFromCamera(this.mouse, this.camera);
-
-        const intersects = this.raycaster.intersectObjects(this.scene.children);
-        if (intersects.length) {
-            const obj = intersects[0].object;
-            if (obj.name === 'DOMINO' && obj.body) {
-                obj.body.applyForce(new CANNON.Vec3(0, 0, -100), obj.body.position);
-            }
-        }
-    }
 }
