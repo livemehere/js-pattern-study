@@ -1,9 +1,5 @@
 import * as THREE from 'three';
-import Plain from "./Plain";
 import {OrbitControls} from "three/addons/controls/OrbitControls.js";
-import Ball from "./Ball";
-import * as CANNON from "cannon-es";
-import Domino from "./Domino";
 import gsap from 'gsap';
 
 export default class App {

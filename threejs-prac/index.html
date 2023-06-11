@@ -11,13 +11,52 @@
             margin: 0;
         }
         #three-canvas{
-            position: absolute;
+            position: fixed;
             left: 0;
             top: 0;
+            z-index: 1;
         }
+
+        .sections{
+        }
+
+        section{
+            box-sizing: border-box;
+            position: relative;
+            height: 100vh;
+            z-index: 10;
+            padding: 2rem;
+        }
+
+        section h2 {
+            font-size: 5rem;
+        }
+
+        section:nth-of-type(odd) h2{
+            text-align: end;
+        }
+
     </style>
 </head>
 <body>
     <canvas id="three-canvas"></canvas>
+    <div class="sections">
+        <section>
+            <h2>01</h2>
+        </section>
+        <section>
+            <h2>02</h2>
+        </section>
+        <section>
+            <h2>03</h2>
+        </section>
+        <section>
+            <h2>04</h2>
+        </section>
+        <section>
+            <h2>05</h2>
+        </section>
+
+    </div>
 </body>
 </html>
